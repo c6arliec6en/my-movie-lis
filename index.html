@@ -34,26 +34,45 @@
       </ul>
     </div>
   </nav>
+  
 
   
-  <div class="container mt-5">
-    <!--search bar-->
-    <div class="row justify-content-between" id="search-bar">
-      <form class="form-inline">
-        <label class="sr-only" for="inlineFormInputName2">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="search" placeholder="search name ...">
-        <button type="submit" class="btn btn-primary mb-2" id="submit-search">Search</button>
-      </form>
-      <div class='toggle-display'>
-        <i class="fa fa-th" aria-hidden="true" id='card'></i>
-        <i class="fa fa-bars" aria-hidden="true" id='list'></i>
+  <div class="container mt-5 row justify-content-between">
+
+    <div class="sidebar col-lg-2">
+      <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Genres</div>
+      <div class="list-group list-group-flush all-genres">
+        <a href="#" class="list-group-item list-group-item-action bg-light data-a">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
       </div>
     </div>
-
-    <!-- data-panel -->
-    <div class="row" id="data-panel">
-      <!-- print movie list here -->
+        
     </div>
+    <div class="content-right col-lg-10">
+      <!--search bar-->
+      <div class="row justify-content-between" id="search-bar">
+        <form class="form-inline">
+          <label class="sr-only" for="inlineFormInputName2">Name</label>
+          <input type="text" class="form-control mb-2 mr-sm-2" id="search" placeholder="search name ...">
+          <button type="submit" class="btn btn-primary mb-2" id="submit-search">Search</button>
+        </form>
+        <div class='toggle-display'>
+          <i class="fa fa-th" aria-hidden="true" id='card'></i>
+          <i class="fa fa-bars" aria-hidden="true" id='list'></i>
+        </div>
+      </div>
+
+
+      <!-- data-panel -->
+      <div class="row" id="data-panel">
+        <!-- print movie list here -->
+      </div>
+    </div>  
   </div>
   <!-- Modal -->
   <div class="modal fade" id="show-movie-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">

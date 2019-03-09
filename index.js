@@ -15,12 +15,40 @@
   	// 初始展示的形式
   	let displayFormat = 'card'
 
+  	const allGenres = document.querySelector('.all-genres')
+  	const genresData = {
+	  "1": "Action",
+	  "2": "Adventure",
+	  "3": "Animation",
+	  "4": "Comedy",
+	  "5": "Crime",
+	  "6": "Documentary",
+	  "7": "Drama",
+	  "8": "Family",
+	  "9": "Fantasy",
+	  "10": "History",
+	  "11": "Horror",
+	  "12": "Music",
+	  "13": "Mystery",
+	  "14": "Romance",
+	  "15": "Science Fiction",
+	  "16": "TV Movie",
+	  "17": "Thriller",
+	  "18": "War",
+	  "19": "Western"
+	}
+	//轉換一個array for loop使用
+	const genres = Object.values(genresData)
+	
+
+
 	axios.get(INDEX_URL)
 	.then((response) => {
 		data.push(...response.data.results)
 		// displayDataList(data)
 		getTotalPages(data)
 		getPageData(1, data)
+		genresList (genres)
 	})
 	.catch((err) => console.log(err))
   	
@@ -64,6 +92,14 @@
 	    })
 	 }
 	
+	function genresList (list) {
+		let htmlContent = ''
+		for (i=0 ; i < genres.length ; i++) {
+			htmlContent += `<a href="#" class="list-group-item list-group-item-action bg-light genres" data-number="${[i+1]}">${genres[i]}</a>`
+		}
+		allGenres.innerHTML = htmlContent
+	} 
+
 
 	function displayDataList (data , format) { 
 		displayFormat = format || displayFormat 
@@ -130,6 +166,21 @@
 	    displayDataList(pageData)
   	}
 
+  	function genresFilter (number) {
+		const filterMovie = []
+		const num = Number(number)
+		data.filter(movie => {
+			movie.genres.filter(i => {
+				if (i === num) {
+					console.log(movie)
+					filterMovie.push(movie)
+				}
+			})
+		})
+		getPageData(1, filterMovie)
+		getTotalPages(filterMovie)
+	}
+
   	// listen to pagination click event
   	pagination.addEventListener('click', event => {
 	    if (event.target.tagName === 'A') {
@@ -170,4 +221,11 @@
 		}
 	})
 
+	allGenres.addEventListener('click', event => {
+		if (event.target.matches('.genres')) {
+			genresFilter(event.target.dataset.number)
+		}
+	})
+
+	
 })()	
