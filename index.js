@@ -14,7 +14,8 @@
   	let nowPage = '1'
   	// 初始展示的形式
   	let displayFormat = 'card'
-
+  	
+  	//Genres資料處理
   	const allGenres = document.querySelector('.all-genres')
   	const genresData = {
 	  "1": "Action",
@@ -37,10 +38,11 @@
 	  "18": "War",
 	  "19": "Western"
 	}
-	//轉換一個array for loop使用
-	const genres = Object.values(genresData)
 	
+	// 生成genres value array 製作Silder bar 
+  	const genres = Object.values(genresData)
 
+	
 
 	axios.get(INDEX_URL)
 	.then((response) => {
@@ -52,6 +54,8 @@
 	})
 	.catch((err) => console.log(err))
   	
+
+	
 	
 	function addFavoriteItem (favoriteId){
 		console.log(favoriteId)
@@ -108,11 +112,23 @@
 		if (displayFormat === 'list') {
 			data.forEach(function (item, index) {
 
+				let panel =''
+
+				//搜尋每個電影的所屬類別，並且將相對應的類別用template literal做儲存，待後面使用
+				item.genres.forEach(style => {
+					for (let [key, value] of Object.entries(genresData)) {
+						if (style.toString() === key) {
+							panel +=  `<div class='movie-style' data-style='${value}'>${value}</div>`
+						}
+					}
+				})
+
 				htmlContent += `
 				<div class='row justify-content-between align-items-center list-style'>
 					<div class="movie-item-body">
 					 	<h6 class="card-title">${item.title}</h5>
 					</div>
+					<div>${panel}</div>
 					<div>
 						<button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
 			 			<button class="btn btn-info btn-add-favorite" data-id="${item.id}">+</button>
@@ -121,6 +137,17 @@
 				`
 		})} else if (displayFormat === 'card') {
 				data.forEach(function (item, index) {
+					let panel =''
+
+					//搜尋每個電影的所屬類別，並且將相對應的類別用template literal做儲存，待後面使用
+					item.genres.forEach(style => {
+						for (let [key, value] of Object.entries(genresData)) {
+							if (style.toString() === key) {
+								panel +=  `<div class='movie-style' data-style='${value}'>${value}</div>`
+							}
+						}
+					})
+
 					htmlContent += `
 					  <div class="col-sm-3">
 					    <div class="card mb-2">
@@ -134,6 +161,10 @@
 				              <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
 				              <button class="btn btn-info btn-add-favorite" data-id="${item.id}">+</button>
 				            </div>
+				            <div class='all-style'>${panel}
+								
+				            </div>
+				            
 					    </div>
 					  </div>
 					`
@@ -166,13 +197,13 @@
 	    displayDataList(pageData)
   	}
 
+  	//篩選對應的電影類別
   	function genresFilter (number) {
 		const filterMovie = []
 		const num = Number(number)
 		data.filter(movie => {
 			movie.genres.filter(i => {
 				if (i === num) {
-					console.log(movie)
 					filterMovie.push(movie)
 				}
 			})
@@ -221,6 +252,7 @@
 		}
 	})
 
+	//Sliderbar 監聽器
 	allGenres.addEventListener('click', event => {
 		if (event.target.matches('.genres')) {
 			genresFilter(event.target.dataset.number)
