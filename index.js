@@ -81,12 +81,10 @@
 
 	    // set request url
 	    const url = INDEX_URL + id
-	    console.log(url)
 
 	    // send request to show api
 	    axios.get(url).then(response => {
 	      const data = response.data.results
-	      console.log(data)
 
 	      // insert data into modal ui
 	      modalTitle.textContent = data.title
@@ -201,8 +199,8 @@
   	function genresFilter (number) {
 		const filterMovie = []
 		const num = Number(number)
-		data.filter(movie => {
-			movie.genres.filter(i => {
+		data.forEach(movie => {
+			movie.genres.forEach(i => {
 				if (i === num) {
 					filterMovie.push(movie)
 				}
